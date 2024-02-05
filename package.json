@@ -1,0 +1,17 @@
+{
+  "name": "node-resolver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ajax": "^0.0.4",
+    "axios": "^1.6.7",
+    "express": "^4.18.2",
+    "expressjs": "^1.0.1"
+  }
+}
