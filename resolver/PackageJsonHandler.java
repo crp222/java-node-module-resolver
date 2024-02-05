@@ -15,11 +15,11 @@ public class PackageJsonHandler {
         }
         Scanner scanner = new Scanner(f);
         while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if(line.trim().startsWith("\"name\"")) {
+            String line = scanner.nextLine().trim();
+            if(line.startsWith("\"name\"") && name == null) {
                 name = line.split(":")[1].replaceAll("[\",]","");
             }
-            if(line.trim().startsWith("\"main\"")) {
+            if(line.startsWith("\"main\"") && main == null) {
                 main = line.split(":")[1].replaceAll("[\",]","");
             }
         }

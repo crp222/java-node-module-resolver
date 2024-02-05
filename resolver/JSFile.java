@@ -35,6 +35,7 @@ public class JSFile {
 
     /**
      * If you want to change the directory where this should search for modules, use Resolver.setModulesDirectory(...) !!!
+     * If you want to change the prefix of the import paths use Resolver.setPrefix(...) !!! Default is "."
      */
     void resolveImports(Class<?> resolver) {
         try {

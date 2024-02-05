@@ -28,7 +28,7 @@ public class RelativeModulesResolver extends Resolver{
         );
         if(module != null){
             moduleMap.put(line.getPath(), module);
-            line.setPath(module);
+            line.setPath(Resolver.getPrefix()+module);
             return;
         }
         String package_json_path = Path.exist(Path.join(search_dir,line.getPath(),"package.json"));
@@ -40,7 +40,7 @@ public class RelativeModulesResolver extends Resolver{
                     if(!module_path.endsWith(".js"))
                         module_path += ".js";
                     moduleMap.put(line.getPath(),module_path);
-                    line.setPath(module_path);
+                    line.setPath(Resolver.getPrefix()+module_path);
                 }
                     
             }catch(Exception e){

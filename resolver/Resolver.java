@@ -3,7 +3,8 @@ import java.util.Map;
 
 public abstract class Resolver {
 
-    private static String modulesDirectory = "./node_modules";
+    private static String modulesDirectory = "../node_modules";
+    private static String prefix = ".";
 
     protected Map<String,String> moduleMap;
 
@@ -21,6 +22,14 @@ public abstract class Resolver {
 
     public static String getModulesDirectory() {
         return modulesDirectory;
+    }
+
+    public static void setPrefix(String prefix) {
+        Resolver.prefix = prefix;
+    }
+
+    public static String getPrefix() {
+        return prefix;
     }
 
     public Map<String,String> getModuleMap() {
