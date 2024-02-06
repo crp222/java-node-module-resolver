@@ -1,8 +1,13 @@
+package js_code_handling;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+
+import resolvers.Resolver;
+import utils.Path;
 
 public class JSFile {
     
@@ -37,7 +42,7 @@ public class JSFile {
      * If you want to change the directory where this should search for modules, use Resolver.setModulesDirectory(...) !!!
      * If you want to change the prefix of the import paths use Resolver.setPrefix(...) !!! Default is "."
      */
-    void resolveImports(Class<?> resolver) {
+    public void resolveImports(Class<?> resolver) {
         try {
             if(Resolver.class.isAssignableFrom(resolver))  {
                 Resolver resolverObject = (Resolver)resolver.getMethod("getInstance", null).invoke(null);
@@ -52,7 +57,7 @@ public class JSFile {
         };
     }
 
-    void writeOut(String path) {
+    public void writeOut(String path) {
         try{
             File f = new File(path);
             String filepath = path;

@@ -1,3 +1,5 @@
+import js_code_handling.JSFile;
+import resolvers.RelativeModulesResolver;
 
 class Main {
 

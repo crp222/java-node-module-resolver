@@ -1,5 +1,8 @@
+package resolvers;
 
-
+import js_code_handling.ImportLine;
+import utils.PackageJsonHandler;
+import utils.Path;
 
 public class RelativeModulesResolver extends Resolver{
 

@@ -1,5 +1,9 @@
+package resolvers;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import js_code_handling.ImportLine;
 
 public abstract class Resolver {
 
