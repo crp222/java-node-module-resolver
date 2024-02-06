@@ -1,4 +1,4 @@
-package js_code_handling;
+package com.app.resolver.js_code_handling;
 
 import java.util.Iterator;
 import java.util.List;
@@ -126,15 +126,11 @@ public class ImportLine {
         StringBuilder res = new StringBuilder("import ");
 
         String fixed_path = "";
-        if(!path.matches("^[A-Z][:].*$") && !path.startsWith(".")){ 
-            fixed_path += ".";
-            if(!path.startsWith("/")){ 
-                fixed_path += "/";
-            }
+        if(!path.startsWith(".") && !path.matches("^[A-Z][:].*$") && !path.startsWith("/") && !path.startsWith("\\")){ 
+            fixed_path += "/";
         }
-        
-        fixed_path += path;
 
+        fixed_path += path;
         Iterator<String> mIterator = modules.iterator();
         if(def == true){
             res.append(mIterator.next());

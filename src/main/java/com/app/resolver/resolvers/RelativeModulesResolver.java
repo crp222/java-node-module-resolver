@@ -1,8 +1,8 @@
-package resolvers;
+package com.app.resolver.resolvers;
 
-import js_code_handling.ImportLine;
-import utils.PackageJsonHandler;
-import utils.Path;
+import com.app.resolver.js_code_handling.ImportLine;
+import com.app.resolver.utils.PackageJsonHandler;
+import com.app.resolver.utils.Path;
 
 public class RelativeModulesResolver extends Resolver{
 
@@ -38,8 +38,9 @@ public class RelativeModulesResolver extends Resolver{
         if(package_json_path != null){
             try {
                 PackageJsonHandler package_json = new PackageJsonHandler(package_json_path);
-                if(package_json.getMain() != null) {
-                    String module_path = Path.join(search_dir,line.getPath(),package_json.getMain());
+                String module_from_json = package_json.getModule() != null ? package_json.getModule() : package_json.getName();
+                if(module_from_json != null) {
+                    String module_path = Path.join(search_dir,line.getPath(),module_from_json);
                     if(!module_path.endsWith(".js"))
                         module_path += ".js";
                     moduleMap.put(line.getPath(),module_path);

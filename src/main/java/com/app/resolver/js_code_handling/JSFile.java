@@ -1,4 +1,4 @@
-package js_code_handling;
+package com.app.resolver.js_code_handling;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-import resolvers.Resolver;
-import utils.Path;
+import com.app.resolver.resolvers.Resolver;
+import com.app.resolver.utils.Path;
 
 public class JSFile {
     
@@ -16,13 +16,15 @@ public class JSFile {
     String path;
     String filename;
 
-    public JSFile(String filepath) {
+    public JSFile(File file) {
         codeLines = new LinkedList<>();
         try {
+            if(!file.exists())
+                throw new Exception("File is not exist!");
+            
             String code = "";
-            File f = new File(filepath);
-            filename = f.getName();
-            Scanner scanner = new Scanner(f);
+            filename = file.getName();
+            Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 code += line+"\n";
@@ -32,10 +34,23 @@ public class JSFile {
 
             importLines = ImportLineParser.parse(code);
 
-            codeLines.subList(0,importLines.size()).clear();
+            codeLines.removeIf(line -> line.startsWith("import "));
         }catch(Exception e){
             e.printStackTrace();
+            System.exit(1);
         };
+    }
+
+    public JSFile(String filepath) {
+        this(new File(filepath));
+    }
+
+    public List<ImportLine> getImportLines() {
+        return importLines;
+    }
+
+    public void setImportLines(List<ImportLine> importLines) {
+        this.importLines = importLines;
     }
 
     /**

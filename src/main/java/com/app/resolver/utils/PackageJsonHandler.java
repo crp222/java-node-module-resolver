@@ -1,4 +1,4 @@
-package utils;
+package com.app.resolver.utils;
 
 import java.io.File;
 import java.util.Map;
@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class PackageJsonHandler {
     private String name;
     private String main;
+    private String module;
     private Map<String,String> exports;
 
     public PackageJsonHandler(String path) throws Exception{
@@ -20,6 +21,9 @@ public class PackageJsonHandler {
             if(line.startsWith("\"name\"") && name == null) {
                 name = line.split(":")[1].replaceAll("[\",]","");
             }
+            if(line.startsWith("\"module\"") && module == null) {
+                module = line.split(":")[1].replaceAll("[\",]","");
+            }
             if(line.startsWith("\"main\"") && main == null) {
                 main = line.split(":")[1].replaceAll("[\",]","");
             }
@@ -27,6 +31,13 @@ public class PackageJsonHandler {
         scanner.close();
     }
 
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
+    }
 
     public String getName() {
         return this.name;

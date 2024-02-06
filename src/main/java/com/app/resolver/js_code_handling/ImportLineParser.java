@@ -1,4 +1,4 @@
-package js_code_handling;
+package com.app.resolver.js_code_handling;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +23,14 @@ public class ImportLineParser {
      * import A from "./asd" - true;
      * import {A} from "./asd" - false;
      * import A,{B,C} from "./asd" - true;
+     * import * as A from "./asd" - true;
      * </pre>
      * @param code "A" | "{A}" | "A,{B,C}"
      * @return
      */
     private static boolean isDefaultImport(String code){
+        if(code.contains(" as "))
+            return true;
         return code.matches("^[A-Za-z].*$");
     }
 
@@ -36,6 +39,7 @@ public class ImportLineParser {
      * import A from "./asd" - [];
      * import {A} from "./asd" - [A];
      * import A,{B,C} from "./asd" - [B,C];
+     * import * as D from "./asd" - ["* as D"]
      * </pre>
      * @param code "A" | "{A}" | "A,{B,C}"
      * @return
@@ -44,6 +48,10 @@ public class ImportLineParser {
         int start = code.indexOf("{")+1;
         int end = code.indexOf("}");
         List<String> modules = new ArrayList<>();
+        if(code.contains(" as ")) {
+            modules.add(code);
+            return modules;
+        }
         if(start == -1 || end == -1) {
             modules.add(code);
             return modules;
@@ -70,7 +78,9 @@ public class ImportLineParser {
     }
 
     private static String preFormat(String str) {
-        str = str.replaceAll(" |\"","");
+        if(str.contains(" as "))
+            return str;
+        str = str.replaceAll(" |\"|\'","");
         return str;
     }
 
