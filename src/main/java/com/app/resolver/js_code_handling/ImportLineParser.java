@@ -81,6 +81,8 @@ public class ImportLineParser {
         if(str.contains(" as "))
             return str;
         str = str.replaceAll(" |\"|\'","");
+        if(str.endsWith(".js"))
+            str = str.substring(0, str.length()-3);
         return str;
     }
 
@@ -94,9 +96,9 @@ public class ImportLineParser {
         }
         String module = preFormat(line[0]);
         String path = preFormat(line[1]);
-        if(path.charAt(0) == '.')
+        while(path.charAt(0) == '.')
             path = path.substring(1,path.length());
-        ImportLine importLine = new ImportLine(getModules(module),isDefaultImport(module),path,isRelative(path),isCore(path));
+        ImportLine importLine = new ImportLine(getModules(module),isDefaultImport(module),path,isRelative(path),isCore(path),full_line);
         return importLine;
     }
 

@@ -1,6 +1,7 @@
 package com.app;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -35,8 +36,11 @@ public class ResourceHandler implements ResourceResolver {
     @Override
     public Resource resolveResource(HttpServletRequest request, String requestPath, List<? extends Resource> locations,
             ResourceResolverChain chain) {
+                
         try {
             Resource resource = new ClassPathResource(requestPath);
+            if(!resource.exists())
+                throw new FileNotFoundException("Resource ["+requestPath+"] doesn't exist!");
             if(resource.getFilename().endsWith(".js")){
                 JSFile jsFile = new JSFile(resource.getFile());
                 jsFile.resolveImports(RelativeModulesResolver.class);
@@ -47,7 +51,9 @@ public class ResourceHandler implements ResourceResolver {
             }else {
                 return resource;
             }
-        }catch(Exception e){
+        }catch(FileNotFoundException err){
+            return null;
+        }catch(Exception err){
             return null;
         }
     }

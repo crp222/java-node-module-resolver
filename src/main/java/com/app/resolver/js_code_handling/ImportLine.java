@@ -10,19 +10,29 @@ public class ImportLine {
     private String path;
     private boolean relative;
     private boolean core;
+    private String original;
+    private boolean resolved;
 
     public ImportLine() {
     }
 
-    public ImportLine(List<String> modules, boolean def, String path, boolean relative, boolean core) {
+    public ImportLine(List<String> modules, boolean def, String path, boolean relative, boolean core,String original) {
         this.modules = modules;
         this.def = def;
         this.path = path;
         this.relative = relative;
         this.core = core;
+        this.original = original;
+        this.resolved = false;
     }
 
-    
+    public void setOriginal(String original) {
+        this.original = original;
+    }
+
+    public String getOriginal() {
+        return original;
+    }
 
     public List<String> getModules() {
         return this.modules;
@@ -76,31 +86,15 @@ public class ImportLine {
         this.core = core;
     }
 
-    public ImportLine modules(List<String> modules) {
-        setModules(modules);
-        return this;
+    public void setResolved(boolean resolved) {
+        this.resolved = resolved;
     }
 
-    public ImportLine def(boolean def) {
-        setDef(def);
-        return this;
+    public boolean isResolved() {
+        return resolved;
     }
 
-    public ImportLine path(String path) {
-        setPath(path);
-        return this;
-    }
-
-    public ImportLine relative(boolean relative) {
-        setRelative(relative);
-        return this;
-    }
-
-    public ImportLine core(boolean core) {
-        setCore(core);
-        return this;
-    }
-
+ 
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -123,11 +117,14 @@ public class ImportLine {
      */
     @Override
     public String toString() {
+        if(resolved == false)
+            return original + "\n";
+
         StringBuilder res = new StringBuilder("import ");
 
         String fixed_path = "";
-        if(!path.startsWith(".") && !path.matches("^[A-Z][:].*$") && !path.startsWith("/") && !path.startsWith("\\")){ 
-            fixed_path += "/";
+        if(!path.startsWith(".") && !path.matches("^[A-Z][:].*$") && !path.startsWith("/") && !path.startsWith("\\") && relative){ 
+            fixed_path += "./";
         }
 
         fixed_path += path;

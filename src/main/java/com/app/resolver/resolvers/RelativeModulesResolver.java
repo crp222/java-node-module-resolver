@@ -6,7 +6,7 @@ import com.app.resolver.utils.Path;
 
 public class RelativeModulesResolver extends Resolver{
 
-    public static RelativeModulesResolver instance;
+    private static RelativeModulesResolver instance;
 
     private RelativeModulesResolver() {
         super();
@@ -20,6 +20,8 @@ public class RelativeModulesResolver extends Resolver{
 
     @Override
     public void resolve(ImportLine line) {
+        if(line.isResolved() || line.isRelative())
+            return;
         String search_dir = line.getRelative() ? "." : Resolver.getModulesDirectory();
         String module = Path.exist(
             Path.join(search_dir,line.getPath()+".js"),
@@ -32,6 +34,7 @@ public class RelativeModulesResolver extends Resolver{
         if(module != null){
             moduleMap.put(line.getPath(), module);
             line.setPath(Resolver.getPrefix()+module);
+            line.setResolved(true);
             return;
         }
         String package_json_path = Path.exist(Path.join(search_dir,line.getPath(),"package.json"));
@@ -45,6 +48,7 @@ public class RelativeModulesResolver extends Resolver{
                         module_path += ".js";
                     moduleMap.put(line.getPath(),module_path);
                     line.setPath(Resolver.getPrefix()+module_path);
+                    line.setResolved(true);
                 }
                     
             }catch(Exception e){
